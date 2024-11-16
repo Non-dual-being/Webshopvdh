@@ -39,21 +39,21 @@
     <main class="main-content__grid">
         <section class="main-content__form-section">
                 <form class="main-content__grid-form" method="post" novalidate> 
-                    <label for="inzender_voornaam">Je voornaam</label>
+                    <label class="form__label" for="inzender_voornaam">Voornaam</label>
                     <input type="text" id="inzender_persoonvoornaam" name="inzender_persoonvoornaam" required>
                     <div id="inzender_persoonvoornaamFout" class="foute-invoermelding"></div>
 
-                    <label for="inzender_achternaam">Je achternaam</label>
+                    <label class="form__label" for="inzender_achternaam">Achternaam</label>
                     <input type="text" id="inzender_achternaam" name="inzender_achternaam" required >
                     <div id="inzender_achternaamFout" class="foute-invoermelding"></div>
                     
-                    <label for="emailadres">E-mailadres</label>
+                    <label class="form__label" for="emailadres">E-mailadres</label>
                     <input type="email" id="emailadres" name="emailadres" required>
                     <div id="emailadresFout" class="foute-invoermelding"></div>
                     <fieldset>
-                        <legend>Vragen en verzoeken</legend>
-                        <label for="vragenVerzoeken">Invulveld</label>
-                        <textarea id="vragenVerzoeken" name="vragenVerzoeken" maxlength="600" rows="5"></textarea>
+                        <legend class="form_legend">Vragen en verzoeken</legend>
+                        <label class="form__label" for="vragenVerzoeken">Invulveld</label>
+                        <textarea class="form_textarea" id="vragenVerzoeken" name="vragenVerzoeken" maxlength="600" rows="5"></textarea>
                         <div id="vragenVerzoekenFout" class="foute-invoermelding"></div>
                         <div id="tekenTeller">600 tekens over</div>
                         <div id="contact">
