@@ -1,11 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Nunito+Sans:wght@400;600&display=swap');
 
 /* Basis styling */
+/* Basis styling */
 :root {
     --ff-base: 'Nunito Sans', sans-serif;
     --ff-heading: 'Lora', serif;
     --color-primary: #4caf50; /* Groen voor kopteksten */
     --color-secondary: #003366; /* Donkerblauw voor accenten */
+    --color-secondary-scroll: rgba(0, 51, 102, 0.9); /* Donkerblauw voor accenten */
     --color-text: #333; /* Tekstkleur */
     --color-bg: #f8f8f8; /* Achtergrondkleur algemeen */
     --color-bg-secondary: #f5f5dc; /* Licht beige als secundaire achtergrond */
@@ -13,14 +15,20 @@
     --color-border: #eaeaea;
     --color-nav-bg: #ffffff; /* Witte achtergrond voor navigatie */
     --padding: 20px;
+    --color-scroll-thumb: #004080; /* Blauw voor de scrollbar thumb */
+    --color-scroll-thumb-hover: #0066cc; /* Lichtere blauw voor scrollbar thumb hover */
+    --color-scroll-track: rgba(0, 51, 102, 0.1); /* Trackkleur voor scrollbar */
+    --color-scroll-button: #004080; /* Kleur voor knoppen van de scrollbar */
+    --color-scroll-button-hover: #0066cc; /* Kleur bij hover voor knoppen */
 
     /* Responsive font-size */
     --font-size-base: clamp(1rem, 1vw + 0.5rem, 1.2rem);
     --font-size-heading: clamp(1.5rem, 2vw + 0.5rem, 2.5rem);
 
     /* Responsive margin */
-    --margin-responsive: clamp(10px, 2vw, 20px);
+    --margin-responsive: clamp(8px, 1.8vw, 20px);
 }
+
 
 *,
 *::after,
@@ -42,8 +50,76 @@ body {
     width: 100%;
     max-width: 100vw;
     font-size: var(--font-size-base);
-    margin: var(--margin-responsive);
 }
+
+
+/* Custom scrollbar styles for WebKit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 8px; /* Small width for a thinner scrollbar */
+    height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--color-scroll-thumb); /* Blauw voor de scrollbar */
+    border-radius: 3px;
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.2); /* Licht schaduw voor diepte */
+    transition: background-color 0.3s ease;
+    cursor:pointer;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-scroll-thumb-hover); /* Lichtere blauw bij hover */
+}
+
+::-webkit-scrollbar-track {
+    background-color: white;
+    border-radius: 4px;
+    transition: box-shadow 0.3s ease;
+}
+
+::-webkit-scrollbar-track:hover {
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.2); /* Licht schaduw voor diepte */
+  
+}
+
+
+
+/* Pijl omhoog */
+::-webkit-scrollbar-button:single-button:vertical:decrement {
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black"><polygon points="8,4 12,10 4,10"/></svg>') no-repeat center;
+    
+}
+
+/* Pijl omlaag */
+::-webkit-scrollbar-button:single-button:vertical:increment {
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black"><polygon points="4,6 12,6 8,12"/></svg>') no-repeat center;
+    
+}
+
+
+/* Pijl naar links */
+::-webkit-scrollbar-button:single-button:horizontal:decrement {
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black"><polygon points="6,8 10,4 10,12"/></svg>') no-repeat center;
+
+}
+
+/* Pijl naar rechts */
+::-webkit-scrollbar-button:single-button:horizontal:increment {
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black"><polygon points="10,8 6,4 6,12"/></svg>') no-repeat center;
+   
+}
+
+
+@-moz-document url-prefix() {
+    /* Custom scrollbar styles specifically for Firefox */
+    html {
+        scrollbar-width: 8px; /* Sets the scrollbar width for Firefox */
+        scrollbar-color: var(--color-scroll-thumb) var(--color-scroll-track); /* Sets thumb and track color */
+    }
+}
+
+
+
 
 .footer {
     display: grid;
