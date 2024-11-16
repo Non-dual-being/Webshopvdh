@@ -1,0 +1,383 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Nunito+Sans:wght@400;600&display=swap');
+
+/* Basis styling */
+:root {
+    --ff-base: 'Nunito Sans', sans-serif;
+    --ff-heading: 'Lora', serif;
+    --color-primary: #4caf50; /* Groen voor kopteksten */
+    --color-secondary: #003366; /* Donkerblauw voor accenten */
+    --color-text: #333; /* Tekstkleur */
+    --color-bg: #f8f8f8; /* Achtergrondkleur algemeen */
+    --color-bg-secondary: #f5f5dc; /* Licht beige als secundaire achtergrond */
+    --color-top-bar: #4caf50; /* Groene balk voor bovenste sectie */
+    --color-border: #eaeaea;
+    --color-nav-bg: #ffffff; /* Witte achtergrond voor navigatie */
+    --padding: 20px;
+
+    /* Responsive font-size */
+    --font-size-base: clamp(1rem, 1vw + 0.5rem, 1.2rem);
+    --font-size-heading: clamp(1.5rem, 2vw + 0.5rem, 2.5rem);
+
+    /* Responsive margin */
+    --margin-responsive: clamp(10px, 2vw, 20px);
+}
+
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--ff-base);
+    color: var(--color-text);
+    background-color: white;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100vw;
+    font-size: var(--font-size-base);
+    margin: var(--margin-responsive);
+}
+
+.footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: #003366;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    gap: 5px;
+    width: 100%;
+    bottom: 0;
+    font-size: var(--font-size-base);
+}
+
+.footer__section-contact,
+.footer__section-social {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer__section-social h2 {
+    margin-bottom: 10px;
+}
+
+/* Contact sectie styling */
+.footer__section-contact a {
+    color: white;
+    text-decoration: none;
+}
+
+.footer__section-contact a:visited {
+    color: white;
+}
+
+.footer__section-contact a:hover,
+.footer__section-contact a:focus {
+    color: #4caf50;
+    font-weight: bold;
+}
+
+/* Instagram logo styling */
+.instagram-link {
+    text-decoration: none;
+}
+
+.instagram {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out,box-shadow linear 0.4s;
+}
+
+.instagram:hover {
+    background: radial-gradient(circle at 30% 110%, #ffdb8b 0%, #ee653d 25%, #d42e81 50%, #a237b6 75%, #3e57bc 100%);
+    box-shadow: 0 0 10px white;
+    transform: scale(1.1);
+}
+
+.instagram::after {
+    content: "";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: 4px solid #003366;
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+}
+
+.instagram::before {
+    content: "";
+    position: absolute;
+    top: 22px;
+    right: 22px;
+    border: 3px solid #003366;
+    height: 14px;
+    width: 14px;
+    border-radius: 50%;
+}
+
+/* Stipje in het logo */
+.instagram span {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 5px;
+    height: 5px;
+    background-color: #003366;
+    border-radius: 50%;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.instagram span:hover {
+    background-color: rgba(0, 51, 102, 0.5);
+}
+
+/* Utility classes */
+.offscreen {
+    position: absolute;
+    left: -10000px;
+}
+
+/* Header */
+.header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative; /* Gewone positionering voor de header */
+    z-index: 2;
+}
+.header__top-bar {
+    width: 100%;
+    background-color: rgba(76, 175, 80, 0.99);
+    padding: 5px 0;
+    text-align: center;
+    font-size: 0.9rem;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Banner-afbeelding */
+.header__banner {
+    width: 100%;
+    height: 250px;
+    background-image: url('../images/logo_banner_main.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.header__h1-logo {
+    width: 110px;
+    height: auto;
+    margin-top: 3px;
+    position: relative;
+    border-radius: 50%; /* Maakt het logo rond */
+    padding: 4px; /* Ruimte rond het logo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2; /* Zorgt ervoor dat het logo boven de overlay blijft */
+    transition: transform 0.3s; /* Voegt een hover-effect toe */
+    box-shadow: 0 0 3px white;
+    margin-right: 3px;
+}
+
+.header__h1-logo:hover {
+    box-shadow: 0 0 10px white;
+    transition: all linear 0.5s;
+}
+
+/* Titel */
+.header__title {
+    font-family: var(--ff-heading);
+    font-size: var(--font-size-heading);
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin: 0 auto;
+    width: 100%;
+    justify-content: center;
+    background-color: var(--color-bg);
+    padding: 10px 0;
+    box-shadow: 0 0 1px var(--color-text);
+    background-color: #003366;
+    padding: 15px 0;
+}
+
+/* Navigatie */
+.header__navigation {
+    background-color: var(--color-nav-bg);
+    width: 100%;
+    position: sticky;
+    top: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    border-top: 1px solid var(--color-border);
+}
+
+.header__navigation-ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    gap: 20px;
+}
+
+.header__navigation-ul li a {
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--color-text);
+    padding: 5px 15px;
+    border-bottom: 2px solid transparent;
+}
+
+.header__navigation-ul li a:hover:not(#active-navLink) {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+    transition: all 0.2s linear;
+}
+
+#active-navLink {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+    font-weight: bolder;
+    transition: all ease-in 0.1s;
+}
+
+#active-navLink:hover {
+    color: var(--color-secondary);
+    border-bottom-color: var(--color-secondary);
+}
+
+.main-content {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    width: minmax(calc(100%-2rem), 100%);
+    min-height: 100%;
+    border: 1px solid var(white);
+    border-radius: 1px;
+    box-shadow: 0px 4px 8px white;
+    padding: var(--padding);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.main-content__grid {
+    color: var(--color-text);
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+    justify-items: center;
+    align-items: center;
+    min-width: 100%;
+    min-height: 100%;
+    box-sizing: border-box;
+    padding: var(--padding);
+    grid-template-areas: 
+        "form"
+        "foto-section";
+}
+
+.main-content__form-section {
+    position: relative;
+    min-width: 100%;
+    min-height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 1rem;
+    background-image: url("../images/background-sheep.webp");
+    background-size: contain;
+    background-repeat: repeat-x;
+}
+
+.main-content__grid-form {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    z-index: 1;
+}
+
+.main-content__grid-form input[type="text"],
+.main-content__grid-form input[type="email"],
+.main-content__grid-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: border-color 0.3s ease;
+}
+
+.main-content__grid-form input[type="text"]:focus,
+.main-content__grid-form input[type="email"]:focus,
+.main-content__grid-form textarea:focus {
+    border-color: #4caf50;
+    outline: none;
+}
+
+.main-content__grid-section-grid {
+    grid-area: "foto-section";
+}
+
+.main-content__grid-form button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 2rem;
+}
+
+.main-content__grid-form button:hover {
+    background-color: #388e3c;
+    transform: scale(1.05);
+}
+
+/* Responsive aanpassingen */
+@media (max-width: 768px) {
+    .header__title {
+        font-size: 1.5rem;
+    }
+    .header__navigation-ul {
+        gap: 10px;
+        padding: 8px 0;
+    }
+    .header__h1-logo {
+        width: 80px;
+    }
+
+    .footer {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+}
