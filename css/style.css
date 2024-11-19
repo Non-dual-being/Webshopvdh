@@ -14,13 +14,14 @@
     --color-top-bar: #4caf50; /* Groene balk voor bovenste sectie */
     --color-border: #eaeaea;
     --color-nav-bg: #ffffff; /* Witte achtergrond voor navigatie */
-    --padding: 20px;
+    --padding: 1rem;
     --color-scroll-thumb: #004080; /* Blauw voor de scrollbar thumb */
     --color-scroll-thumb-hover: #0066cc; /* Lichtere blauw voor scrollbar thumb hover */
     --color-scroll-track: rgba(0, 51, 102, 0.1); /* Trackkleur voor scrollbar */
     --color-scroll-button: #004080; /* Kleur voor knoppen van de scrollbar */
     --color-scroll-button-hover: #0066cc; /* Kleur bij hover voor knoppen */
     --color-border-beige: #f5f5dc; /* Beige randkleur om in de achtergrond op te gaan */
+    --color-bg-blue-form: rgba(0, 51, 102, 0.01); /* Donkerblauw bij hover */
 
 
     /* Responsive font-size */
@@ -28,9 +29,19 @@
     --font-size-heading: clamp(1.5rem, 2vw + 0.5rem, 2.5rem);
 
     /* Responsive margin */
-    --margin-responsive: clamp(8px, 1.8vw, 20px);
+    --margin-responsive: clamp(5px, 1.8vw, 8px);
     --margin-label-responsive-top: clamp(5px, 5vh, 10px);
     --margin-label-responsive-bottom: clamp(-11px, 3vh, -7px);
+    --padding-responsive: clamp(0.3rem, 2vh, 0.4rem) clamp(0.8rem, 4vw, 1.3rem);
+    --padding-responsive-smal: clamp(0.3rem, 1vh, 0.4rem) clamp(0.8rem, 2vw, 1rem);
+    --padding-responsive-form: clamp(1rem, 4vh, 1.4rem) clamp(0.8rem, 5vw, 1.3rem);
+    --text-shadow-form: 0px 0px 0.7px var(--color-secondary);
+    --box-shadow-inputs-form-focus:  inset 0 0 0 4px rgba(0, 51, 102, 0.2); /* Lichte schaduw voor diepte inset is naar binnen*/ 
+    --box-shadow-inputs-form:  inset 0 2px 5px rgba(0, 0, 0, 0.05); /* Lichte schaduw voor diepte inset is naar binnen*/
+    --border-form: 1px solid #ddd; /* Neutrale randkleur */
+    --border-color-hover: rgba(0, 51, 102, 0.8); /* Donkerblauw bij hover */
+
+
 
 }
 
@@ -380,29 +391,42 @@ body {
 .main-content__form-section {
     position: relative;
     min-width: 100%;
-    min-height: 100%;
+    min-height: 100vh; /* Zorgt ervoor dat de sectie het volledige scherm vult */
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 1rem 1rem;
-    background-image: url("../images/background-sheep.webp");
-    background-size: contain;
-    background-repeat: repeat-x;
+    background-color: #f5f5f5;
+
+    /* Gebruik een gelaagde achtergrond met een transparante gradient */
+    background-image:
+        radial-gradient(circle, rgba(0, 0, 0, 0.8) 10%, rgba(255, 255, 255, 0.5) 15%, rgba(0, 0, 0, 0.8) 90%),
+        url("../images/new_sheep_form_backgrond.webp");
+    background-repeat: no-repeat, repeat;
+    background-size: cover, 8%; /* Bepaalt de breedte van de herhaling */
+    background-position: center, left top; /* Plaatsing van de gradient en achtergrondafbeelding */
+    border-radius: 7px;
 }
 
 .main-content__grid-form {
-    background-color: rgba(245, 245, 220, 0.9); /* Iets donkerder beige achtergrond */
-    padding: 3rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Zwaardere schaduw voor meer diepte */
-    max-width: 700px;
+    background-color: rgba(255, 255, 255, 0.99); /* Eenvoudige, licht transparante achtergrond */
+    padding: 2rem;
+    border-radius: 40px; /* Iets zachtere hoeken voor een moderne look */
+    max-width: 750px;
     width: 100%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
+    gap: 0.9rem;
+    border: solid 5px rgba(0, 51, 102, 0.7);
     z-index: 1;
-    border: 4px solid var(--color-secondary); /* Donkerblauwe rand voor afbakening */
+    transition: all 0.4s ease-in-out;
+}
+
+.main-content__grid-form:hover{
+    box-shadow: 0 6px 20px rgba(0, 51, 102, 0.95); /* Diepere schaduw voor een gelaagd effect */
+    background-color: rgba(255, 255, 255, 0.97); /* Eenvoudige, licht transparante achtergrond */
+    
 }
 
 .main-content__grid-form * {
@@ -413,55 +437,176 @@ body {
 .main-content__grid-form input[type="email"],
 .main-content__grid-form textarea {
     width: 100%;
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
-    border: 1px solid #ccc; /* Neutrale randkleur */
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Lichte schaduw voor diepte */
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    padding: 0.8rem 1.2rem;
+    border-radius: 10px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;  
+}
+
+.main-content__grid-form input[type="text"],
+.main-content__grid-form input[type="email"] {
+    margin-bottom: 2rem;
+    border: var(--border-form);
+    box-shadow: var(--box-shadow-inputs-form);
 }
 
 .main-content__grid-form input[type="text"]:hover,
-.main-content__grid-form input[type="email"]:hover,
-.main-content__grid-form textarea:hover {
-    border-color: var(--color-secondary); /* Donkerblauw bij hover */
+.main-content__grid-form input[type="email"]:hover
+{
+    border-color: var(--border-color-hover);
+}
+.main-content__grid-form input[type="text"]:focus,
+.main-content__grid-form input[type="email"]:focus
+ {
+    border-color: rgba(0, 51, 102, 0.8); /* Donkerblauwe rand bij focus */
+    box-shadow: var(--box-shadow-inputs-form-focus);
+    outline: none;
 }
 
-.main-content__grid-form input[type="text"]:focus,
-.main-content__grid-form input[type="email"]:focus,
-.main-content__grid-form textarea:focus {
-    border-color: var(--color-secondary); /* Donkerblauwe rand bij focus */
-    box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.2); /* Blauwe gloed bij focus */
-    outline: none;
+.main-content__grid-form textarea {
+    width: 100%;
+    background-color: white;
+    border-radius: 5px;
+    padding: 6px;
+    color: black;
+    transition: border-color 0.3s, background-color 0.3s;
+    box-sizing: border-box;
+    font-family: 'Avenir', sans-serif;
+    resize: none; /* Voorkomt dat de gebruiker het formaat van het tekstvak kan wijzigen */
+    border: var(--border-form); /* Neutrale randkleur */
+    box-shadow: var(--box-shadow-inputs-form);
+}
+
+
+.main-content__grid-form textarea:hover {
+   border-color: var(--border-color-hover);
+   background-color: var(--colorb-bg-blue-form);
+}
+
+
+.main-content__grid-form textarea:focus{
+    background-color: var(--color-bg-blue-form);
+    border: 2px solid var(--border-blue-hover);
+    box-shadow: var(--box-shadow-inputs-form-focus);
 }
 
 .form__label {
     margin-top: var(--margin-label-responsive-top);
-    margin-bottom: var(--margin-label-responsive-bottom);
     margin-left: 0.3rem;
-    font-weight: 900;
-    color: var(--color-secondary); /* Donkerblauwe kleur voor labels */
+    font-weight: 900; /* Subtielere gewicht voor moderne look */
+    color: #0a3a5b; /* Past bij de stijl van je formulier */
+    font-size: 1.4rem; /* Iets grotere labels voor een premium uitstraling */
+    display: block;
+    text-shadow: var(--text-shadow-form);
+}
+
+.form__label:first-child {
+    margin-top: 0;
 }
 
 .main-content__grid-form button {
-    background-color: var(--color-secondary); /* Donkerblauwe achtergrond voor de knop */
+    background-color: rgba(0, 51, 102, 0.9); /* Donkerblauwe knop */
     color: white;
     border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 6px;
-    font-size: 1rem;
+    padding: 0.8rem 1.6rem;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.1s ease;
-    margin-top: 1.5rem;
+    transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    margin-top: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 51, 102, 0.3); /* Zachte schaduw voor een zwevend effect */
 }
 
 .main-content__grid-form button:hover {
-    background-color: #00264d; /* Donkerdere blauw bij hover */
-    transform: scale(1.02); /* Kleinere schaal voor subtiliteit */
+    background-color: #003366; /* Donkerdere blauw bij hover */
+    transform: scale(1.03); /* Kleinere schaal voor een subtiel effect */
+    box-shadow: 0 6px 18px rgba(0, 51, 102, 0.4); /* Versterkte schaduw bij hover */
 }
+
 
 .main-content__grid-section-grid {
     grid-area: "foto-section";
 }
+
+.tekenTeller{
+    display: hidden;
+    text-align: end;
+    font-weight: bold;
+    padding: var(--padding-responsive-smal);
+    color: var(--color-text);
+    font-size: 0.8em;
+    text-shadow: var(--text-shadow-form);
+}
+
+.contact {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: flex-end;
+    padding: var(--padding-responsive);
+    text-shadow: var(--text-shadow-form);
+}
+
+.contact p {
+    display: block;
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+    font-weight: bold;
+    margin: var(--margin-responsive);
+    margin-bottom: -10px;
+    margin-left: -13px
+    
+}
+
+.contact__mailto,
+.contact__mailto:visited {
+    color: var(--color-secondary); /* Veranderd naar blauw voor beide states */
+    text-decoration: none;
+    font-weight: 900;
+}
+
+.contact__mailto:hover{
+    color: var(--color-primary);
+}
+
+.contact__mailto:active {
+    text-decoration: underline;
+    text-shadow: 0px 0px 1px white;
+}
+
+.form__legend {
+    font-weight: 700;
+    color: white;
+    background-color: var(--color-secondary);
+    border-radius: 35px;
+    padding: var(--padding-responsive);
+    border: 3px solid white;
+    text-align: center;
+    box-sizing: content-box;
+    justify-content: space-between; /* Plaatst elementen gelijkmatig verdeeld */
+    display: inline-block;
+    flex-direction: row;
+    min-width: max-content; 
+    white-space: nowrap; 
+
+    }
+
+.form__fieldset{
+    border: 1px solid var(--color-secondary);
+    padding: var(--padding-responsive-form);
+    border-radius: 10px;
+    background-image: 
+    linear-gradient(to left, rgba(255, 255, 255, 0.9) 90%, rgba(255, 255, 255, 0.9)),
+    url("../images/new_sheep_form_backgrond.webp");
+    background-repeat: no-repeat, repeat;
+    background-size: cover, 50%; /* Bepaalt de breedte van de herhaling */
+    background-position: center; /* Plaatsing van de gradient en achtergrondafbeelding */
+    border-radius: 10px;
+    padding: 1.5rem;
+    border: 2px solid #0a3a5b;
+}
+
+
 
 
 
