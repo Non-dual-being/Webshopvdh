@@ -40,34 +40,48 @@
     <main class="main-content__grid">
         <section class="main-content__form-section">
            
-                <form class="main-content__grid-form" method="post" novalidate> 
-                    <fieldset class="form__fieldset">
-                        <legend class="form__legend">Contact-gegevens</legend>
-                        <label class="form__label" for="inzender_voornaam">Voornaam</label>
-                        <input type="text" id="inzender_persoonvoornaam" name="inzender_persoonvoornaam" required>
-                        <div id="inzender_persoonvoornaamFout" class="foute-invoermelding"></div>
+            <form class="main-content__grid-form" method="post" novalidate> 
+                <fieldset class="form__fieldset">
+                    <legend class="form__legend">Contact-gegevens</legend>
 
-                        <label class="form__label" for="inzender_achternaam">Achternaam</label>
-                        <input type="text" id="inzender_achternaam" name="inzender_achternaam" required >
-                        <div id="inzender_achternaamFout" class="foute-invoermelding"></div>
+                    <label class="form__label" for="persoonVoornaam">Voornaam</label>
+                    <div id="persoonVoornaamMelding" class="form__Melding"></div>
+                    <input type="text" id="persoonVoornaam" name="inzender_persoonvoornaam" required>  
+                  
                         
-                        <label class="form__label" for="emailadres">E-mailadres</label>
-                        <input type="email" id="emailadres" name="emailadres" required>
-                        <div id="emailadresFout" class="foute-invoermelding"></div>
-                    </fieldset>
-                    <fieldset class="form__fieldset">
-                        <legend class="form__legend">Vragen en verzoeken</legend>
-                        <label class="form__label" for="vragenVerzoeken">Invulveld</label>
-                        <textarea class="form_textarea" id="vragenVerzoeken" name="vragenVerzoeken" maxlength="600" rows="5"></textarea>
-                        <div id="vragenVerzoekenFout" class="foute-invoermelding"></div>
-                        <p class="tekenTeller"><span id="tekenTeller"></span></p>
-                        <div class="contact">
-                            <p>contact: <a class="contact__mailto" href="mailto:webshopvandenheuvel@gmail.com">webshopvandenheuvel@gmail.com</a></p>
-                        </div>
-                    </fieldset>
-                    <button type="submit">Verzenden</button>
-                </form>
-          
+                
+                    <div id="persoonAchternaamMelding" class="form__Melding"></div>
+                    <label class="form__label" for="persoonAchternaam">Achternaam</label>
+                    <input type="text" id="persoonAchternaam" name="inzender_achternaam" required>
+                   
+                   
+                    <label class="form__label" for="emailadres">E-mailadres</label>
+                    <div id="emailadresMelding" class="form__Melding"></div>
+                    <input type="email" id="emailadres" name="emailadres" required>
+        
+                </fieldset>
+                
+                <fieldset class="form__fieldset">
+                    <legend class="form__legend">Vragen en verzoeken</legend>
+                    
+                    <label class="form__label" for="vragenVerzoeken">Invulveld</label>
+                    <textarea class="form_textarea" id="vragenVerzoeken" name="vragenVerzoeken" maxlength="600" rows="5"></textarea>
+                    <div id="vragenVerzoekenMelding" class="form__Melding"></div>
+                    
+                    <p class="tekenTeller"><span id="tekenTeller"></span></p>
+                    
+                    <div class="contact">
+                        <p>Contact: 
+                            <a class="contact__mailto" href="mailto:webshopvandenheuvel@gmail.com">webshopvandenheuvel@gmail.com</a>
+                        </p>
+                    </div>
+                </fieldset>
+
+                <div id="verzendknop_Melding" class="form__Melding"></div>
+                <button type="submit">Verzenden</button>
+             
+            </form>
+            
                 
         </section>
         <section class="main-content__grid-section-grid">
