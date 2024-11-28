@@ -40,24 +40,24 @@
     <main class="main-content__grid">
         <section class="main-content__form-section">
            
-            <form class="main-content__grid-form" method="post" novalidate> 
+            <form id ="contact-form"class="main-content__grid-form" method="post" novalidate> 
                 <fieldset class="form__fieldset">
                     <legend class="form__legend">Contact-gegevens</legend>
 
                     <label class="form__label" for="persoonVoornaam">Voornaam</label>
                     <div id="persoonVoornaamMelding" class="form__Melding"></div>
-                    <input type="text" id="persoonVoornaam" name="inzender_persoonvoornaam" required>  
+                    <input type="text" id="persoonVoornaam" name="inzender_persoonvoornaam" autocomplete="off" required>  
                   
                         
                 
                     <div id="persoonAchternaamMelding" class="form__Melding"></div>
                     <label class="form__label" for="persoonAchternaam">Achternaam</label>
-                    <input type="text" id="persoonAchternaam" name="inzender_achternaam" required>
+                    <input type="text" id="persoonAchternaam" name="inzender_achternaam" autocomplete="off" required>
                    
                    
                     <label class="form__label" for="emailadres">E-mailadres</label>
                     <div id="emailadresMelding" class="form__Melding"></div>
-                    <input type="email" id="emailadres" name="emailadres" required>
+                    <input type="email" id="emailadres" name="emailadres" autocomplete="off" required>
         
                 </fieldset>
                 
@@ -77,8 +77,8 @@
                     </div>
                 </fieldset>
 
-                <div id="verzendknop_Melding" class="form__Melding"></div>
-                <button type="submit">Verzenden</button>
+                <div type = "submit" id="verzendknop_Melding" class="form__Melding"></div>
+                <button id="verzendknop" type="submit">Verzenden</button>
              
             </form>
             

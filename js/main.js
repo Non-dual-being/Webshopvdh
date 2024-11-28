@@ -9,6 +9,9 @@ const emailadresInputveld = document.querySelector('#emailadres');
 const emailadresInputveldMelding = document.querySelector('#emailadresMelding');
 const textareaInputveld = document.getElementById('vragenVerzoeken');
 const textareaInputveldMelding = document.getElementById('vragenVerzoekenMelding');
+const submitknop = document.getElementById('verzendknop');
+const submitknopInputveldMelding = document.getElementById('verzendknop_Melding');
+const form = document.getElementById('contact-form');
 
 // Toon foutmelding
 function toonFoutmelding(foutElement, foutmelding, cssClasse, element, duur = 10000) {
@@ -119,16 +122,17 @@ function valideerEmail(waarde) {
 
 
     if (waarde.length === 0) {
-        return "Dit veld mag niet leeg blijven."; 
+        return {type: "melding", message: "Dit veld mag niet leeg blijven"};
     }
     
 
     if (waarde.length > maxLength) {
-        return `Het e-mailadres mag maximaal ${maxLength} tekens bevatten.`;
+        return{type: "fout", message:`Het e-mailadres mag maximaal ${maxLength} tekens bevatten.`};
+
     } else if (!emailRegex.test(waarde)) {
-        return "Voer een geldig e-mailadres in zoals henk.deschepper@hotmail.com";
+        return {type: "fout", message:"Voer een geldig e-mailadres in zoals henk-jan.wivina@hotmail.com"};
     }
-    return ""; // Geen foutmelding
+    return null; // Geen foutmelding
 }
 
 function valideerVragenenOpmerkingen(waarde) {
@@ -136,13 +140,13 @@ function valideerVragenenOpmerkingen(waarde) {
     const vragenenOpmerkingenRegex = /^[A-Za-z0-9\s.,:?!]+$/;
 
     if (waarde.length === 0){
-        return "";
+        return null;
     }
     
     if (waarde.length > maxLength) {
-        return `Dit veld mag max ${maxLength} tekens bevatten.`;
+        return {type: 'fout', message: `Dit veld mag max ${maxLength} tekens bevatten.`};
     } else if (!vragenenOpmerkingenRegex.test(waarde)) {
-        return "Speciale tekens zoals } of / kunnen niet gebruikt worden";
+        return {type: "fout", message: "Speciale tekens zoals } of / kunnen niet gebruikt worden"};
     }
     return ""; // Geen foutmelding
 }
@@ -156,47 +160,55 @@ function verzendknopFoutMelding(waarde) {
  }
 
 // Algemene validatiefunctie
-function valideerInvoer(veld, foutElement, validatieFunctie) {
-    const waarde = veld.value.trim(); // Haal de waarde van het veld op
+function valideerInvoer(veld, foutElement, validatieFunctie, verzendKnopwaarde = null) {
+    const waarde = veld === submitknop 
+        ? verzendKnopwaarde // Gebruik de opgegeven waarde voor de verzendknop
+        : veld.value.trim(); // Gebruik de waarde van het invoerveld
+
     const validatieResultaat = validatieFunctie(waarde);
 
-    function applyFieldStyle (veld, type) {
+    function applyFieldStyle(veld, type) {
         if (type === "fout") {
-        veld.style.borderColor = "rgba(255, 165, 0, 0.8)"; // Oranje rand
-        veld.style.boxShadow = "0 0 8px rgba(255, 165, 0, 0.5)"; // Oranje schaduw
-        veld.style.outline = "none"; // Geen outline
-        veld.style.transition = "border-color 0.3s ease, box-shadow 0.3s ease"; // Overgangseffect
-        } else if (type === "melding" || "reset") {
-        veld.style.borderColor = ""; // Oranje rand
-        veld.style.boxShadow = ""; // Oranje schaduw
-        veld.style.outline = ""; // Geen outline
-        veld.style.transition = ""; // Overgangseffect
+            veld.style.borderColor = "rgba(255, 165, 0, 0.8)"; // Oranje rand
+            veld.style.boxShadow = "0 0 8px rgba(255, 165, 0, 0.5)"; // Oranje schaduw
+            veld.style.outline = "none"; // Geen outline
+            veld.style.transition = "border-color 0.3s ease, box-shadow 0.3s ease"; // Overgangseffect
+        } else if (type === "melding" || type === "reset") {
+            veld.style.borderColor = ""; // Herstel rand
+            veld.style.boxShadow = ""; // Herstel schaduw
+            veld.style.outline = ""; // Herstel outline
+            veld.style.transition = ""; // Herstel overgang
         }
     }
 
     if (validatieResultaat) {
         const { type, message } = validatieResultaat;
 
-        // Voeg focus toe bij fout
-        if (type === "fout") {
-            veld.focus();
-            toonFoutmelding(foutElement, message, "form__Foutmelding", veld);
+        if (veld === submitknop) {
+            // Logica specifiek voor de verzendknop
+            const cssClass = type === "fout" 
+                ? "form__Verzendknop-Foutmelding" 
+                : "form__Verzendknop-Melding";
+            toonFoutmelding(foutElement, message, cssClass, veld);
+            return null; // Stop verdere verwerking voor de knop
+        } else {
+            // Logica voor reguliere velden
+            const cssClass = type === "fout" 
+                ? "form__Foutmelding" 
+                : "form__Infomelding";
+            toonFoutmelding(foutElement, message, cssClass, veld);
             applyFieldStyle(veld, type);
-         
-            
-        } else if (type === "melding") {
-            toonFoutmelding(foutElement, message, "form__Infomelding", veld);
-            applyFieldStyle(veld, type);
-
         }
 
-        return false;
+        return false; // Validatie mislukt
     } else {
-        hideFoutmelding(foutElement); // Verberg foutmelding
+        // Geen foutmeldingen
+        hideFoutmelding(foutElement);
         applyFieldStyle(veld, "reset");
-        return true;
+        return true; // Validatie succesvol
     }
 }
+
 
 
 function tekenTellerUpdate () {
@@ -215,8 +227,6 @@ function hideTekenteller () {
     tekenteller.style.display = 'none';
 }
 
-textareaInputveld.addEventListener('input', tekenTellerUpdate); 
-textareaInputveld.addEventListener('input', tekenTellerUpdate); 
 voornaamInputveld.addEventListener("blur", () => {
     valideerInvoer(voornaamInputveld, voornaamInputveldMelding, valideerVoornaam);
 });
@@ -226,4 +236,119 @@ achternaamInputveld.addEventListener("blur", () => {
 });
 
 
+emailadresInputveld.addEventListener("blur", () => {
+    valideerInvoer(emailadresInputveld, emailadresInputveldMelding, valideerEmail);
+});
 
+textareaInputveld.addEventListener('input', () => {
+    tekenTellerUpdate();
+    valideerInvoer(textareaInputveld, textareaInputveldMelding, valideerVragenenOpmerkingen);
+    });
+
+textareaInputveld.addEventListener('blur', () =>
+    {
+    valideerInvoer(textareaInputveld, textareaInputveldMelding, valideerVragenenOpmerkingen)
+}); 
+
+
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    let isFormInputCorrect = true;
+    const allInPutsObj = [
+        {veld: voornaamInputveld, foutElement: voornaamInputveldMelding, validatieFunctie: valideerVoornaam },
+        {veld: achternaamInputveld, foutElement: achternaamInputveldMelding, validatieFunctie: valideerAchternaam },
+        {veld: emailadresInputveld , foutElement: emailadresInputveldMelding, validatieFunctie: valideerEmail},
+        {veld: textareaInputveld, foutElement: textareaInputveldMelding, validatieFunctie: valideerVragenenOpmerkingen},
+      
+    ];
+
+    for (const inputObj of allInPutsObj) {
+        const isCorrect = valideerInvoer(inputObj.veld, inputObj.foutElement, inputObj.validatieFunctie);
+        if (!isCorrect) {
+            inputObj.veld.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            isFormInputCorrect = false;
+            break;
+        }
+
+    }
+
+    if (!isFormInputCorrect) {
+        return false;
+    }
+    
+
+    const formData = new FormData(event.target);
+
+    try {
+        const response = await fetch('valideer_contact_formulier.php', {
+            method: 'POST',
+            body: JSON.stringify(formData),
+            headers: {
+                "Content-Type": "application/json" 
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Serverfout: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        if (result.success) {
+            responseMessage.textContent = "Bericht succesvol verzonden!";
+        } else if (result.errors) {
+            responseMessage.textContent = "Er zijn fouten in je invoer. Controleer de velden.";
+            console.log(result.errors); // Fouten loggen voor debugging
+        } else if (result.servererror) {
+            responseMessage.textContent = `Serverfout: ${result.servererror}`;
+        }
+    } catch (error) {
+        console.error("Er ging iets mis:", error);
+        responseMessage.textContent = "Kon het formulier niet verzenden. Probeer het later opnieuw.";
+    }
+    
+
+})
+
+form.addEventListener("submit", async (event) => {
+    event.preventDefault(); // Voorkom standaard formulier verzenden
+
+    const formData = new FormData(event.target);
+    const jsonData = JSON.stringify(Object.fromEntries(formData));
+    const showVerzendMelding = (validatieFunctie, verzendKnopwaarde) => {
+        valideerInvoer (submitknop, submitknopInputveldMelding, validatieFunctie, verzendKnopwaarde) };
+
+    const timeoutVerzending = setTimeout(() => {
+        showVerzendMelding(verzendknopFoutMelding, "Het verwerken van de aanvraag duur langer dan verwacht")
+    }, 10000); // 10 seconden
+    
+
+    try {
+        const response = await fetch('valideer_contact_formulier.php', {
+            method: 'POST',
+            body: jsonData,
+            headers: {
+                "Content-Type": "application/json" 
+            }
+        });
+
+        clearTimeout(timeoutVerzending ); // Annuleer de timeout als er een respons is
+
+        if (!response.ok) {
+            throw new Error(`Serverfout: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        if (result.success) {
+            return true
+        } else if (result.errors) {
+            return false
+        } else if (result.servererror) {
+           return false
+        }
+    } catch (error) {
+        console.error("Er ging iets mis:", error);
+        showVerzendMelding(verzendknopFoutMelding, "De aanvraag is niet correct verwerkt")
+    }
+});
