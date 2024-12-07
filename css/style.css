@@ -375,27 +375,24 @@ body {
 
 .main-content__grid {
     color: var(--color-text);
-    display: grid;
-    grid-template-rows: repeat(2, 1fr);
+    display: flex;
+    flex-direction: column;
     justify-items: center;
     align-items: center;
     min-width: 100%;
     min-height: 100%;
     box-sizing: border-box;
     padding: var(--padding);
-    grid-template-areas: 
-        "form"
-        "foto-section";
 }
 
 .main-content__form-section {
     position: relative;
     min-width: 100%;
-    min-height: 100vh; /* Zorgt ervoor dat de sectie het volledige scherm vult */
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1rem 1rem;
+    padding: 1rem 0.1rem;
     background-color: #f5f5f5;
 
     /* Gebruik een gelaagde achtergrond met een transparante gradient */
@@ -406,7 +403,9 @@ body {
     background-size: cover, 8%; /* Bepaalt de breedte van de herhaling */
     background-position: center, left top; /* Plaatsing van de gradient en achtergrondafbeelding */
     border-radius: 7px;
+    margin-bottom: 5px;
 }
+
 
 .main-content__grid-form {
     background-color: rgba(255, 255, 255, 0.99); /* Eenvoudige, licht transparante achtergrond */
@@ -526,9 +525,7 @@ body {
 }
 
 
-.main-content__grid-section-grid {
-    grid-area: "foto-section";
-}
+
 
 .tekenTeller{
     display: hidden;
@@ -647,6 +644,8 @@ body {
     letter-spacing: 0.05em;
     max-width: 100%;
 }
+
+
 .form__Foutmelding {
     background-image: 
     linear-gradient(to left, rgba(255, 255, 255, 0.9) 95%, rgba(220, 220, 220, 0.9)),
@@ -665,19 +664,112 @@ body {
 
 /* Specifieke stijl voor verzendknop-meldingen */
 .form__Verzendknop-Melding {
-    font-size: 1.2rem; /* Grotere tekst voor verzendknop-meldingen */
-    padding: 1.2rem 1.5rem; /* Meer padding voor betere zichtbaarheid */
-    text-align: center; /* Centraal uitlijnen voor verzendknop-meldingen */
+    background-image: 
+    linear-gradient(to left, rgba(255, 255, 255, 0.9) 95%, rgba(220, 220, 220, 0.9)),
+    url("../images/new_sheep_form_backgrond.webp");
+    
+    background-repeat: no-repeat, repeat;
+    background-size: cover, 0.1%; /* Bepaalt de breedte van de herhaling */
+    background-position: center; /* Plaatsing van de gradient en achtergrondafbeelding */
+    color: var(--color-scroll-thumb);
+    border: 3px solid rgba(0, 51, 102, 0.8); /* Donkerblauw bij hover */
+    text-shadow: var(--text-shadow-form);
+    font-family: "Georgia", serif;
+    letter-spacing: 0.05em;
+    max-width: 100%;
+    left: 50%
 }
 
 /* Specifieke stijl voor verzendknop-foutmeldingen */
 .form__Verzendknop-Foutmelding {
-    background-color: rgba(255, 100, 100, 0.2); /* Lichte rode achtergrond */
-    color: #ff3333; /* Rode tekstkleur */
-    border: 1px solid rgba(255, 100, 100, 0.4); /* Rode rand */
-    font-size: 1.2rem;
-    font-weight: bold;
+    background-image: 
+    linear-gradient(to left, rgba(0, 0, 0, 0.7) 80%, rgba(40, 40, 80, 0.5)), /* Zacht blauw accent */
+    url("../images/new_sheep_form_backgrond.webp");
+
+
+
+    background-repeat: no-repeat, repeat;
+    background-size: cover, 40%; /* Bepaalt de breedte van de herhaling */
+    background-position: center; /* Plaatsing van de gradient en achtergrondafbeelding */
+
+    color: #FFFFFF; /* Witte tekst voor contrast */
+    border: 3px solid #DDD; /* Minder transparante oranje rand */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Meer contrast met een donkere schaduw */
+    font-family: "Georgia", serif;
+    letter-spacing: 0.05em;
+    max-width: 100%;
+    font-size: 1em;
+
 }
+
+.main-content__grid-section-grid {
+    background-image: 
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(245, 245, 245, 0.7)), /* Zachte lichte gradient */
+        url("../images/new_sheep_form_backgrond.webp"); /* Achtergrond met schaapjespatroon */
+    background-repeat: no-repeat, repeat;
+    background-size: cover, 8%; /* De achtergrondafbeelding subtiel herhalen */
+    background-position: center top; /* Zorgt dat het patroon mooi gecentreerd is */
+    padding: 20px; /* Ruimte rondom de inhoud */
+    border-radius: 15px; /* Zachtere hoeken */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtiele schaduw voor diepte */
+    grid-template-columns: repeat(3, 1fr); /* Drie kolommen */
+    grid-template-rows: auto; /* Automatische rijen */
+    gap: 20px; /* Ruimte tussen de foto's */
+    max-width: 100vw;
+    margin: 5px auto; /* Centraal uitgelijnd en ruimte boven/onder */
+}
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, auto);
+    grid-gap: 20px;
+    padding: 20px;
+    min-width: 100%;
+    margin: 0 auto;
+    justify-items: stretch;
+    align-items: stretch;
+    background-image: linear-gradient(to left, rgba(0, 0, 0, 0.05) 70%, rgba(100, 100, 150, 0.05));
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 50px;
+}
+
+
+.photo-item {
+    background-color: #e9e9e9; /* Achtergrondkleur voor lege ruimte */
+    border-radius: 10px; /* Ronde hoeken */
+    overflow: hidden; /* Zorg dat inhoud binnen blijft */
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Zachte schaduw */
+    animation: spinIn 0.8s ease-out forwards;
+}
+
+.photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Vul volledig zonder verhoudingen te verliezen */
+    display: block;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.photo-item:hover img {
+    transform: scale(1.05); /* Licht inzoomen bij hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes spinIn {
+    0% {
+        transform: scale(0.8) rotate(-30deg);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
 
 
 /* Responsive aanpassingen */

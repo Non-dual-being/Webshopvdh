@@ -17,15 +17,27 @@ const form = document.getElementById('contact-form');
 function toonFoutmelding(foutElement, foutmelding, cssClasse, element, duur = 10000) {
     foutElement.textContent = foutmelding;
     foutElement.style.display = "block";
-    foutElement.classList.add(cssClasse);
+    foutElement.className = "form__Melding"; // Reset klassen'
+    const addedClasse = cssClasse;
+    foutElement.classList.add(addedClasse);
+    
 
     const parent = element.offsetParent; // De dichtstbijzijnde gepositioneerde ouder
     const rect = element.getBoundingClientRect();
     const parentRect = parent.getBoundingClientRect();
 
+
     // Bereken de positie relatief aan de ouder
-    foutElement.style.left = `${rect.left - parentRect.left}px`;
-    foutElement.style.top = `${rect.top - parentRect.top - foutElement.offsetHeight - 50}px`;
+    if (addedClasse === "form__Verzendknop-Foutmelding" || addedClasse === "form__Verzendknop-Melding") {
+        foutElement.style.left = `${(parentRect.width - (parentRect.width/4))/ 2 -25}px`;
+        foutElement.style.top = `${rect.top - parentRect.top - foutElement.offsetHeight - 20}px`;
+        ; // Centreer het foutelement
+    } else {
+        foutElement.style.left = `${rect.left - parentRect.left}px`; // Standaard positie
+        foutElement.style.top = `${rect.top - parentRect.top - foutElement.offsetHeight - 50}px`;
+    }
+    
+    
 
 
 
@@ -188,7 +200,7 @@ function valideerInvoer(veld, foutElement, validatieFunctie, verzendKnopwaarde =
             // Logica specifiek voor de verzendknop
             const cssClass = type === "fout" 
                 ? "form__Verzendknop-Foutmelding" 
-                : "form__Verzendknop-Melding";
+                : "form__Verzendknop-Foutmelding" 
             toonFoutmelding(foutElement, message, cssClass, veld);
             return null; // Stop verdere verwerking voor de knop
         } else {
@@ -251,88 +263,39 @@ textareaInputveld.addEventListener('blur', () =>
 }); 
 
 
-form.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    let isFormInputCorrect = true;
-    const allInPutsObj = [
-        {veld: voornaamInputveld, foutElement: voornaamInputveldMelding, validatieFunctie: valideerVoornaam },
-        {veld: achternaamInputveld, foutElement: achternaamInputveldMelding, validatieFunctie: valideerAchternaam },
-        {veld: emailadresInputveld , foutElement: emailadresInputveldMelding, validatieFunctie: valideerEmail},
-        {veld: textareaInputveld, foutElement: textareaInputveldMelding, validatieFunctie: valideerVragenenOpmerkingen},
-      
-    ];
-
-    for (const inputObj of allInPutsObj) {
-        const isCorrect = valideerInvoer(inputObj.veld, inputObj.foutElement, inputObj.validatieFunctie);
-        if (!isCorrect) {
-            inputObj.veld.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            isFormInputCorrect = false;
-            break;
-        }
-
-    }
-
-    if (!isFormInputCorrect) {
-        return false;
-    }
-    
-
-    const formData = new FormData(event.target);
-
-    try {
-        const response = await fetch('valideer_contact_formulier.php', {
-            method: 'POST',
-            body: JSON.stringify(formData),
-            headers: {
-                "Content-Type": "application/json" 
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`Serverfout: ${response.status}`);
-        }
-
-        const result = await response.json();
-
-        if (result.success) {
-            responseMessage.textContent = "Bericht succesvol verzonden!";
-        } else if (result.errors) {
-            responseMessage.textContent = "Er zijn fouten in je invoer. Controleer de velden.";
-            console.log(result.errors); // Fouten loggen voor debugging
-        } else if (result.servererror) {
-            responseMessage.textContent = `Serverfout: ${result.servererror}`;
-        }
-    } catch (error) {
-        console.error("Er ging iets mis:", error);
-        responseMessage.textContent = "Kon het formulier niet verzenden. Probeer het later opnieuw.";
-    }
-    
-
-})
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault(); // Voorkom standaard formulier verzenden
 
+    // Verzamel formulierdata
     const formData = new FormData(event.target);
     const jsonData = JSON.stringify(Object.fromEntries(formData));
-    const showVerzendMelding = (validatieFunctie, verzendKnopwaarde) => {
-        valideerInvoer (submitknop, submitknopInputveldMelding, validatieFunctie, verzendKnopwaarde) };
+    console.table(jsonData);
 
+    // Helperfunctie om verzendmeldingen te tonen
+    const showVerzendMelding = (validatieFunctie, verzendKnopwaarde) => {
+        valideerInvoer(submitknop, submitknopInputveldMelding, validatieFunctie, verzendKnopwaarde);
+    };
+
+    // Timeout voor langzame verwerking
     const timeoutVerzending = setTimeout(() => {
-        showVerzendMelding(verzendknopFoutMelding, "Het verwerken van de aanvraag duur langer dan verwacht")
+        showVerzendMelding(
+            verzendknopFoutMelding,
+            "Het verwerken van de aanvraag duurt langer dan verwacht..."
+        );
+        submitknop.textContent = "Verwerken duurt langer...";
     }, 10000); // 10 seconden
-    
 
     try {
-        const response = await fetch('valideer_contact_formulier.php', {
-            method: 'POST',
+        const response = await fetch("valideer_contact_formulier.php", {
+            method: "POST",
             body: jsonData,
             headers: {
-                "Content-Type": "application/json" 
-            }
+                "Content-Type": "application/json",
+            },
         });
 
-        clearTimeout(timeoutVerzending ); // Annuleer de timeout als er een respons is
+        clearTimeout(timeoutVerzending); // Annuleer de timeout als er een respons is
 
         if (!response.ok) {
             throw new Error(`Serverfout: ${response.status}`);
@@ -341,14 +304,30 @@ form.addEventListener("submit", async (event) => {
         const result = await response.json();
 
         if (result.success) {
-            return true
+            // Succesvol verwerkt
+            submitknop.textContent = "Bericht verzonden!";
+            showVerzendMelding(verzendknopMelding, "Bericht succesvol verzonden.");
+            return true;
         } else if (result.errors) {
-            return false
+            // Fouten in formulier
+            submitknop.textContent = "Controleer je invoer.";
+            console.error("Formulierfouten ontvangen:", result.errors);
+            return false;
         } else if (result.servererror) {
-           return false
+            // Serverfout
+            submitknop.textContent = "Serverfout. Probeer later opnieuw.";
+            return false;
         }
     } catch (error) {
-        console.error("Er ging iets mis:", error);
-        showVerzendMelding(verzendknopFoutMelding, "De aanvraag is niet correct verwerkt")
+        clearTimeout(timeoutVerzending); // Zorg ervoor dat de timeout wordt geannuleerd bij een fout
+        console.error("Er ging iets mis tijdens het verzenden:", error);
+        showVerzendMelding(verzendknopFoutMelding, "De aanvraag is niet correct verwerkt.");
+        submitknop.textContent = "Verzenden mislukt. Probeer opnieuw.";
+    } finally {
+        // Herstel knoptekst na een korte vertraging
+        setTimeout(() => {
+            submitknop.textContent = "Verzenden";
+        }, 5000); // 3 seconden
     }
 });
+
