@@ -160,7 +160,7 @@ function valideerVragenenOpmerkingen(waarde) {
     } else if (!vragenenOpmerkingenRegex.test(waarde)) {
         return {type: "fout", message: "Speciale tekens zoals } of / kunnen niet gebruikt worden"};
     }
-    return ""; // Geen foutmelding
+    return null; // Geen foutmelding
 }
 
 function verzendknopMelding(waarde) {
@@ -266,6 +266,35 @@ textareaInputveld.addEventListener('blur', () =>
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault(); // Voorkom standaard formulier verzenden
+
+    const velden = [
+        {veld: voornaamInputveld, foutElement: voornaamInputveldMelding , validatieFunctie: valideerVoornaam},
+        {veld: achternaamInputveld, foutElement:achternaamInputveldMelding , validatieFunctie:valideerAchternaam},
+        {veld: emailadresInputveld, foutElement: emailadresInputveldMelding, validatieFunctie: valideerEmail },
+        {veld: textareaInputveld , foutElement: textareaInputveldMelding , validatieFunctie: valideerVragenenOpmerkingen}
+    ]
+
+    let isFormulierGeldig = true;
+
+    for (const invoerveld of velden) {
+        const isGeldig = valideerInvoer(invoerveld.veld, invoerveld.foutElement, invoerveld.validatieFunctie);
+
+        // Als er een fout is, focus op het eerste veld dat niet geldig is en stop met de controle
+        if (!isGeldig) {
+            veldInfo.veld.focus();  // Verplaats de focus naar het foutieve veld
+            isFormulierGeldig = false;
+            break;  // Stop met het valideren van andere velden
+        }
+    }
+
+    // Stop de verdere verwerking als het formulier niet geldig is
+    if (!isFormulierGeldig) {
+        return false;
+    }
+
+
+
+
 
     // Verzamel formulierdata
     const formData = new FormData(event.target);
