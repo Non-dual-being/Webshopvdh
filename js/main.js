@@ -281,7 +281,17 @@ form.addEventListener("submit", async (event) => {
 
         // Als er een fout is, focus op het eerste veld dat niet geldig is en stop met de controle
         if (!isGeldig) {
-            veldInfo.veld.focus();  // Verplaats de focus naar het foutieve veld
+            submitknop.textContent = "Controleer je invoer.";
+
+            setTimeout(() => {
+                submitknop.textContent = "Verzenden";
+            }, 3000); // 3 seconden
+
+            setTimeout(() => {
+                invoerveld.veld.focus(); 
+            }, 1000); // 3 seconden
+
+    
             isFormulierGeldig = false;
             break;  // Stop met het valideren van andere velden
         }
