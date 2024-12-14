@@ -264,6 +264,39 @@ textareaInputveld.addEventListener('blur', () =>
 
 
 
+const photoItems = document.querySelectorAll(".photo-item");
+
+
+// Maak een Intersection Observer
+document.addEventListener("DOMContentLoaded", () => {
+    const photoItems = document.querySelectorAll(".photo-item.hidden");
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const target = entry.target;
+
+                // Verwijder de 'hidden' klasse
+                target.classList.remove("hidden");
+
+                // Voeg de 'animate' klasse toe
+                target.classList.add("animate");
+
+                // Stop met observeren
+                observer.unobserve(target);
+            }
+        });
+    }, {
+        threshold: 0.4
+    });
+
+    photoItems.forEach(item => observer.observe(item));
+});
+
+
+
+
+
 form.addEventListener("submit", async (event) => {
     event.preventDefault(); // Voorkom standaard formulier verzenden
 

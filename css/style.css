@@ -724,17 +724,36 @@ body {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, auto);
     grid-gap: 20px;
-    padding: 20px;
-    min-width: 100%;
+    padding: 22px;
     margin: 0 auto;
     justify-items: stretch;
     align-items: stretch;
-    background-image: linear-gradient(to left, rgba(0, 0, 0, 0.05) 70%, rgba(100, 100, 150, 0.05));
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    border-radius: 50px;
+    min-width: 100%;
+    background-image: linear-gradient(to left, rgba(255, 255, 255, 0.5), rgba(245, 245, 245, 0.5));
+    border-radius: 25px;
+    box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.8);
 }
+
+.photo-grid img {
+    border: 2px solid rgba(255, 255, 255, 1);
+    border-radius: 15px;
+}
+
+.photo-grid img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.8);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Standaard: verborgen */
+.hidden {
+    opacity: 0;
+    display: block;
+    visibility: hidden; /* Zorg dat het echt niet zichtbaar is */
+    
+}
+
+
 
 
 .photo-item {
@@ -743,7 +762,8 @@ body {
     overflow: hidden; /* Zorg dat inhoud binnen blijft */
     position: relative;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Zachte schaduw */
-    animation: spinIn 0.8s ease-out forwards;
+    opacity: 1; /* Maak het zichtbaar */
+    animation: none; /* Zorg dat standaard geen animatie draait */
 }
 
 .photo-item img {
@@ -759,13 +779,18 @@ body {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
+.photo-item.animate {
+    animation: spinIn 0.8s ease-in-out forwards;
+}
+
+
 @keyframes spinIn {
     0% {
         transform: scale(0.8) rotate(-30deg);
         opacity: 0;
     }
     100% {
-        transform: scale(1) rotate(0deg);
+        transform: scale(1) rotate(0);
         opacity: 1;
     }
 }
