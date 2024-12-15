@@ -745,13 +745,7 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Standaard: verborgen */
-.hidden {
-    opacity: 0;
-    display: block;
-    visibility: hidden; /* Zorg dat het echt niet zichtbaar is */
-    
-}
+
 
 
 .photo-item {
@@ -762,7 +756,15 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Zachte schaduw */
     opacity: 1; /* Maak het zichtbaar */
     animation: none; /* Zorg dat standaard geen animatie draait */
+    transition: opacity 1s ease-in-out;
 }
+
+/* Standaard: verborgen */
+.hidden {
+    display: block;
+    opacity: 0;
+    
+} /* dit moet nu item komen omdat anders de opacity 1 is en de transition niet kan gebeuren, vanwege css regels met zelfde specifiteit is de opacity nu 1 */
 
 .photo-item img {
     width: 100%;
@@ -778,8 +780,9 @@ body {
 }
 
 .photo-item.animate {
-    animation: spinIn 0.8s ease-in-out forwards;
+    animation: spinIn 0.8s ease-in-out forwards; /*animate wordt als klasse toeveogd en omdatt photo item er al was gaat dit van kracht*/
 }
+
 
 .timeline-header {
     background-color: rgba(0, 51, 102, 0.1); /* Zacht blauw voor de header */
@@ -882,7 +885,16 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+   
+    
 }
+
+.timeline__icon.active {
+    background-color: var(--color-secondary);
+    transition: background-color 0.5s ease-in-out; /* Voeg ook hier de overgang toe */
+    
+}
+   
 
 .timeline__icon {
     width: 30px;
@@ -894,7 +906,10 @@ body {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+    transition: background-color 1s ease-in-out; /* Voeg ook hier de overgang toe */
+    
 }
+
 
 
 .timeline__item.visible {

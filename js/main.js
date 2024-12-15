@@ -1,4 +1,6 @@
+import { observerFunction as observe} from './observer.js';
 "use strict";
+
 
 const tekenteller = document.getElementById('tekenTeller');
 const voornaamInputveld = document.querySelector('#persoonVoornaam');
@@ -37,9 +39,6 @@ function toonFoutmelding(foutElement, foutmelding, cssClasse, element, duur = 10
         foutElement.style.top = `${rect.top - parentRect.top - foutElement.offsetHeight - 50}px`;
     }
     
-    
-
-
 
     setTimeout(() => {
         hideFoutmelding(foutElement);
@@ -57,15 +56,6 @@ function hideFoutmelding(foutElement) {
 }
 
 
-// Verberg foutmelding en herstel stijl
-function hideFoutmelding(foutElement) {
-    setTimeout(() => {
-        foutElement.textContent = ""; // Wis de foutmelding
-        foutElement.style.display = "none";
-        foutElement.classList = "";
-        foutElement.classList.add("form__Melding"); // Reset de klassen naar alleen de algemene klass
-    }, 600);
-}
 
 
 function valideerVoornaam(waarde) {
@@ -235,9 +225,7 @@ function tekenTellerUpdate () {
     }
 }
 
-function hideTekenteller () {
-    tekenteller.style.display = 'none';
-}
+
 
 voornaamInputveld.addEventListener("blur", () => {
     valideerInvoer(voornaamInputveld, voornaamInputveldMelding, valideerVoornaam);
@@ -263,33 +251,9 @@ textareaInputveld.addEventListener('blur', () =>
 }); 
 
 
-const photoItems = document.querySelectorAll(".photo-item.hidden");
-
-const observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const target = entry.target;
-
-            // Verwijder de 'hidden' klasse
-            target.classList.remove("hidden");
-
-            // Voeg de 'animate' klasse toe
-            target.classList.add("animate");
-
-            // Stop met observeren
-            observer.unobserve(target);
-        }
-    });
-}, {
-    threshold: 0.4
-});
-
-photoItems.forEach(item => observer.observe(item));
-
-
-
-
-
+const photoItems = document.querySelectorAll(".photo-item");
+const observer = observe("hidden","animate",0.5);
+photoItems.forEach(item => {observer.observe(item); console.log(item.classList);});
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault(); // Voorkom standaard formulier verzenden
