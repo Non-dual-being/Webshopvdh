@@ -46,7 +46,7 @@ function toonFoutmelding(foutElement, foutmelding, cssClasse, element, duur = 10
 }
 
 function hideFoutmelding(foutElement) {
-    foutElement.style.opacity = "0.5"; // Fade-out
+    foutElement.classList.add("fadeOut");
     setTimeout(() => {
         foutElement.style.display = "none"; // Volledig verbergen
         foutElement.textContent = ""; // Wis de foutmelding

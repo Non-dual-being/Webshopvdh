@@ -7,6 +7,9 @@
     --ff-heading: 'Lora', serif;
     --color-primary: #4caf50; /* Groen voor kopteksten */
     --color-secondary: #003366; /* Donkerblauw voor accenten */
+    --color-pallete-bg: #f5f5dc;
+    --color-pallete-darkest-blue: #001933;
+    --color-pallet-bg-light-blue: #cce5ff;
     --color-secondary-scroll: rgba(0, 51, 102, 0.9); /* Donkerblauw voor accenten */
     --color-text: #333; /* Tekstkleur */
     --color-bg: #f8f8f8; /* Achtergrondkleur algemeen */
@@ -371,6 +374,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-grow: 1;
+    min-width: 100%;
 }
 
 .main-content__grid {
@@ -838,11 +842,14 @@ body {
 
 .timeline-grid {
     display: grid;
-    grid-template-columns: 1fr 1px 1fr; /* Linker kolom - Lijn - Rechter kolom */
+    grid-template-columns: 40vw 1px 40vw; /* Linker kolom - Lijn - Rechter kolom */
     gap: 30px;
     padding: 2rem 1rem;
     position: relative;
     min-height: 100vh;
+    align-items: center;
+    justify-items: center;
+    max-width: 100vw;
 }
 
 .timeline__row {
@@ -850,30 +857,46 @@ body {
 }
 
 .timeline__item {
-    background-color: white;
-    border: 2px solid var(--color-secondary);
-    padding: 1rem;
+    background-color: #ffffff; /* Witte achtergrond voor een duidelijke kaart */
+    border-bottom: 4px solid var(--color-secondary); /* Alleen onderrand */
+    padding: 1.5rem;
     border-radius: 10px;
-    box-shadow: var(--box-shadow-inputs-form);
-    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06); /* Gelaagde schaduw voor diepte */
+    transition: all 0.3s ease-in-out;
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.6s ease, transform 0.6s ease;
+    height: auto;
+    max-width: 90%;
+    margin: auto; /* Centraal in de grid geplaatst */
 }
+
+.timeline__item:hover {
+    transform: scale(1.02); /* Licht inzoomen bij hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sterkere schaduw bij hover */
+    background: linear-gradient(180deg, #ffffff, #f3f3f3);
+}
+
 
 .timeline__item--left {
     grid-column: 1;
     margin-right: 10px;
-    text-align: right;
-    width: 50%;
+    text-align:center;
+    max-width: 90%;
+    height: auto;
     justify-self: end;
+   
+   
 }
 
 .timeline__item--right {
     grid-column: 3;
     margin-left: 10px;
-    text-align: left;
-    width: 50%;
+    text-align:justify;
+    width: 90%;
+    height: fit-content;
+    justify-self: start;
+   
 }
 
 .timeline__line {
@@ -885,8 +908,32 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-   
-    
+}
+
+.timeline__line::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    min-height: 150%; /* Doorlopend over de volledige viewporthoogte */
+    background-color: var(--color-secondary);
+    z-index: 0; /* Zorg dat het achter andere elementen ligt */
+    grid-column: 2;
+}
+
+.timeline__line:nth-child(2)::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    min-height: 150%; /* Doorlopende lijn */
+    background-color: var(--color-secondary);
+    z-index: 0; /* Zorg dat het achter andere elementen ligt */
+    grid-column: 2; /* Blijf in het midden van de grid */
 }
 
 .timeline__icon.active {
@@ -894,6 +941,9 @@ body {
     transition: background-color 0.5s ease-in-out; /* Voeg ook hier de overgang toe */
     
 }
+
+
+
    
 
 .timeline__icon {
@@ -907,9 +957,63 @@ body {
     top: 50%;
     transform: translateY(-50%);
     transition: background-color 1s ease-in-out; /* Voeg ook hier de overgang toe */
+    will-change: transform; /* Optimaliseer voor transform-animaties */
     
 }
 
+.timeline__icon:hover{
+
+    animation: pulse 2s infinite;
+    transform-origin: center;
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    border: 2px solid var(--color-secondary);
+    border-radius: 50%;
+    padding: 5px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transform-origin: center;
+    transition: transform 2s ease-in-out, background-color 1s ease-in-out
+
+}
+
+
+.timeline__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100%;
+    height: auto;
+    background-color: #f9f9f9; /* Subtiele lichtgrijze achtergrondkleur */
+    border-radius: 8px; /* Past bij de item-kaart */
+    padding: 1rem; /* Extra padding voor ruimte rondom de tekst */
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); /* Subtiele binnenste schaduw */
+}
+
+
+
+.timeline__content h3 {
+    background-color: var(--color-secondary); /* Zacht blauw voor de header */
+    color: white;
+    text-align: center;
+    border: 2px solid white;
+    border-radius: 0 0 10px 10px; /* Alleen onderranden afronden */
+    min-width: 100%;
+    margin-bottom: 1rem; /* Ruimte onder de titel */
+    font-size: 1.3rem; /* Grotere koptekst */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); /* Subtiele schaduw voor meer diepte */
+    min-width: 100%;
+    padding: 0.2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Schaduw voor een zwevend effect */
+
+}
+
+.timeline__content h3:hover {
+    background: linear-gradient(90deg, #0a9396, #94d2bd); /* Kleurovergang tijdens hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
 
 
 .timeline__item.visible {
@@ -918,6 +1022,196 @@ body {
 }
 
 
+
+.timeline__content figure {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end; /* Zorg dat de caption altijd onderaan staat */
+    text-align: center;
+    overflow: hidden;
+    height: 300px;
+    width: 100%; /* Breedte volledig benutten */
+    border-radius: 10px; /* Ronde hoeken voor een zachtere uitstraling */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Zachte schaduw voor diepte */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease; /* Overgangen voor hover */
+    margin-top: 1rem;
+    padding: 0;
+
+
+}
+
+.timeline__content figure:hover {
+    transform: scale(1.02); /* Een subtiele zoom-in bij hover */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Sterkere schaduw bij hover */
+}
+
+
+.timeline__content figure img {
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Zachte schaduw rondom de foto */
+    border: 3px solid #ffffff; /* Witte rand voor contrast */
+    object-fit: cover; /* Zorgt dat de afbeelding de container vult zonder vervorming */
+    border-radius: 10px; /* Past bij de container */
+}
+
+.timeline__content figcaption {
+    position: absolute; /* Zorg dat de caption bovenop de afbeelding ligt */
+    bottom: 10px; /* Plaatsing vanaf de onderkant */
+    left: 50%; /* Horizontaal gecentreerd */
+    transform: translateX(-50%); /* Correctie voor het midden */
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparante achtergrond */
+    color: white; /* Witte tekst */
+    padding: 5px 10px; /* Ruimte binnen het kadertje */
+    border-radius: 5px; /* Ronde hoeken voor het kadertje */
+    font-size: 0.8rem; /* Iets kleinere tekst */
+    font-style: italic; /* Subtiele stijl */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Zachte schaduw */
+    white-space: nowrap; /* Voorkomt dat de tekst breekt */
+}
+
+.fadeOut {
+    animation: fadeOut 0.7s ease-in-out forwards;
+}
+
+.navigate-grid {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr; /* Twee items en de middenlijn */
+    align-items: center;
+    justify-items: center;
+    padding: 2rem;
+    background-color: rgba(56, 142, 60, 0.15); /* Donkerder groen */
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.navigate-grid__item {
+    background-color: rgba(76, 175, 80, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    width: 85%;
+    
+}
+
+.navigate-grid__content {
+    background-color: white;
+    border: 3px solid rgba(76, 175, 80, 0.6);
+    padding: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    height: auto;
+    max-width: 80%;
+}
+
+
+
+.navigate-grid__item--left{
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    grid-column: 1;
+}
+
+.navigate-grid__content--left{
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+
+}
+
+.navigate-grid__content--right{
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+
+}
+
+.navigate-grid__item--right{
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    grid-column: 3;
+}
+
+
+.navigate-grid__line {
+    background-color: var(--color-primary);
+    width: 6px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    grid-column: 2;
+    z-index: 1;
+    height:100%;
+    border-radius: 100px;
+    border: 1px solid var(--color-secondary);
+
+}
+
+
+
+.navigate-icon {
+    position: relative;
+    display: flex;
+    width: 40px; /* Schaap icoon grootte */
+    height: 40px;
+    background-color: white;
+    border: 3px solid var(--color-bg);
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: box-shadow linear 0.5s, transform ease-in-out 0.2s;
+    z-index: 1;
+}
+
+.addEffect {
+    background-color: #C8E6C9; /* Hier wordt de achtergrondkleur toegepast */
+    transition: background-color 1s ease-in-out;
+    border-radius: 50%;
+    padding: 1rem;
+}
+
+
+
+
+.navigate-icon:hover {
+    box-shadow: 0 0 10px white;
+    transform: scale(1.2);
+    
+
+}
+
+.navigate-button {
+    display: inline-block;
+    padding: 0.8rem 1.2rem;
+    background-color: var(--color-primary);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.navigate-button:hover {
+    background-color: var(--color-secondary);
+}
+
+
+
+@keyframes fadeOut {
+
+    0% {
+        opacity: 1;
+    }
+    100% {
+
+        opacity: 0;
+    }
+}
+    
 
 @keyframes spinIn {
     0% {
@@ -929,6 +1223,24 @@ body {
         opacity: 1;
     }
 }
+
+
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        transform-origin: center;
+
+     
+    }
+    50% {
+        transform: scale(1.1);
+        transform-origin: center;
+
+        
+    }
+}
+
 
 
 
